@@ -3,12 +3,12 @@ import cv2
 #thres = 0.45 # Threshold to detect object
 
 classNames = []
-classFile = "/home/pi/Desktop/Object_Detection_Files/coco.names"
+classFile = "coco.names"
 with open(classFile,"rt") as f:
     classNames = f.read().rstrip("\n").split("\n")
 
-configPath = "/home/pi/Desktop/Object_Detection_Files/ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt"
-weightsPath = "/home/pi/Desktop/Object_Detection_Files/frozen_inference_graph.pb"
+configPath = "ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt"
+weightsPath = "frozen_inference_graph.pb"
 
 net = cv2.dnn_DetectionModel(weightsPath,configPath)
 net.setInputSize(320,320)
@@ -39,15 +39,17 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
 
 if __name__ == "__main__":
 
-    cap = cv2.VideoCapture(0)
-    cap.set(3,640)
-    cap.set(4,480)
+    #cap = cv2.VideoCapture(0)
+    #cap.set(3,640)
+    #cap.set(4,480)
     #cap.set(10,70)
 
 
-    while True:
-        success, img = cap.read()
-        result, objectInfo = getObjects(img,0.45,0.2)
-        #print(objectInfo)
-        cv2.imshow("Output",img)
-        cv2.waitKey(1)
+    #while True:
+    #success, img = cap.read()
+    img = cv2.imread('dog_bike_car.jpg')
+    result, objectInfo = getObjects(img,0.45,0.2)
+    print(objectInfo)
+    cv2.imwrite('Image.jpg', result)
+    #cv2.imshow("Output",img)
+    #cv2.waitKey(1)
